@@ -1,4 +1,4 @@
-package dev.lemonnik.bunker;
+package org.studio4sv.bunker;
 
 import com.mojang.logging.LogUtils;
 import net.minecraftforge.eventbus.api.IEventBus;
