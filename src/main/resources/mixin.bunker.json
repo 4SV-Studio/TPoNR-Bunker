@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "org.studio4sv.bunker.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "minVersion": "0.8.5",
+  "refmap": "refmap.bunker.json",
+  "mixins": [],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": []
+}
