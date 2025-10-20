@@ -20,6 +20,8 @@ public class BunkerMain {
     public BunkerMain(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
 
+        ModBlocks.BLOCKS.register(modEventBus);
+        ModItems.ITEMS.register(modEventBus);
         modEventBus.addListener(this::commonSetup);
     }
 
