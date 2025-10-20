@@ -23,6 +23,11 @@ import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = BunkerMain.MODID)
 public class BunkerGenerator {
+    // CONFIG
+    private static final BlockPos spawnPos = new BlockPos(46, 115, 16);
+    private static final float spawnYaw = 135;
+    private static final float spawnPitch = 0;
+
     @SubscribeEvent
     public static void onWorldLoad(LevelEvent.Load event) {
         if (!(event.getLevel() instanceof ServerLevel serverLevel)) return;
@@ -78,9 +83,14 @@ public class BunkerGenerator {
             });
         }
 
-        BlockPos spawnPos = new BlockPos(0, 100, 0);
-        player.teleportTo(targetWorld, spawnPos.getX() + 0.5, spawnPos.getY() + 1, spawnPos.getZ() + 0.5, player.getYRot(), player.getXRot());
+        player.teleportTo(
+                targetWorld,
+                spawnPos.getX() + 0.5,
+                spawnPos.getY() + 1,
+                spawnPos.getZ() + 0.5,
+                spawnYaw,
+                spawnPitch
+        );
         player.setRespawnPosition(targetWorld.dimension(), spawnPos, player.getYRot(), true, false);
     }
-
 }
