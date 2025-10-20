@@ -2,17 +2,16 @@ package org.studio4sv.bunker;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -61,6 +60,15 @@ public class BunkerGenerator {
     }
 
     @SubscribeEvent
+    public static void onAttachCapabilities(AttachCapabilitiesEvent<net.minecraft.world.entity.Entity> event) {
+        if (event.getObject() instanceof ServerPlayer) {
+            BunkerPlayerData.Provider provider = new BunkerPlayerData.Provider();
+            event.addCapability(BunkerMain.id("player_data"), provider);
+            event.addListener(provider::invalidate);
+        }
+    }
+
+    @SubscribeEvent
     public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
         MinecraftServer server = player.server;
@@ -68,29 +76,28 @@ public class BunkerGenerator {
         ServerLevel targetWorld = server.getLevel(dimKey);
         if (targetWorld == null) return;
 
-        CompoundTag persistentData = player.getPersistentData();
-        CompoundTag data = persistentData.getCompound(Player.PERSISTED_NBT_TAG);
-        if (data.getBoolean("notFirstJoin")) return;
-        data.putBoolean("noFirstJoin", true);
-        persistentData.put(Player.PERSISTED_NBT_TAG, data);
+        player.getCapability(BunkerPlayerData.CAPABILITY).ifPresent(data -> {
+            if (data.isNotFirstJoin()) return;
+            data.setNotFirstJoin(true);
 
-        if (!StructurePlacedData.checkAndSet(targetWorld)) {
-            ResourceLocation structureLoc = BunkerMain.id("main");
-            StructureTemplateManager manager = targetWorld.getStructureManager();
-            manager.get(structureLoc).ifPresent(template -> {
-                BlockPos pos = new BlockPos(0, 100, 0);
-                template.placeInWorld(targetWorld, pos, pos, new StructurePlaceSettings(), targetWorld.random, 2);
-            });
-        }
+            if (!StructurePlacedData.checkAndSet(targetWorld)) {
+                ResourceLocation structureLoc = BunkerMain.id("main");
+                StructureTemplateManager manager = targetWorld.getStructureManager();
+                manager.get(structureLoc).ifPresent(template -> {
+                    BlockPos pos = new BlockPos(0, 100, 0);
+                    template.placeInWorld(targetWorld, pos, pos, new StructurePlaceSettings(), targetWorld.random, 2);
+                });
+            }
 
-        player.teleportTo(
-                targetWorld,
-                spawnPos.getX() + 0.5,
-                spawnPos.getY() + 1,
-                spawnPos.getZ() + 0.5,
-                spawnYaw,
-                spawnPitch
-        );
-        player.setRespawnPosition(targetWorld.dimension(), spawnPos, player.getYRot(), true, false);
+            player.teleportTo(
+                    targetWorld,
+                    spawnPos.getX() + 0.5,
+                    spawnPos.getY() + 1,
+                    spawnPos.getZ() + 0.5,
+                    spawnYaw,
+                    spawnPitch
+            );
+            player.setRespawnPosition(targetWorld.dimension(), spawnPos, player.getYRot(), true, false);
+        });
     }
 }
