@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "bunker:block/exit_block"
+    }
+  }
+}

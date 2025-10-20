@@ -17,10 +17,14 @@ public class ModItems {
     public static final RegistryObject<Item> EXIT_BLOCK = ITEMS.register("exit_block",
             () -> new BlockItem(ModBlocks.EXIT_BLOCK.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> ENTRANCE_BLOCK = ITEMS.register("entrance_block",
+            () -> new BlockItem(ModBlocks.ENTRANCE_BLOCK.get(), new Item.Properties()));
+
     @SubscribeEvent
     public static void buildContents(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.OP_BLOCKS) {
             event.accept(EXIT_BLOCK);
+            event.accept(ENTRANCE_BLOCK);
         }
     }
 }

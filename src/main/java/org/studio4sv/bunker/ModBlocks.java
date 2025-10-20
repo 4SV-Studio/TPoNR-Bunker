@@ -7,12 +7,22 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.studio4sv.bunker.blocks.EnteranceBlock;
+import org.studio4sv.bunker.blocks.ExitBlock;
 
 public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, BunkerMain.MODID);
 
     public static final RegistryObject<Block> EXIT_BLOCK = BLOCKS.register("exit_block",
             () -> new ExitBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLACK)
+                    .strength(-1.0F, 3600000.0F)
+                    .noCollission()
+                    .noOcclusion()
+                    .sound(SoundType.STONE)));
+
+    public static final RegistryObject<Block> ENTRANCE_BLOCK = BLOCKS.register("entrance_block",
+            () -> new EnteranceBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_BLACK)
                     .strength(-1.0F, 3600000.0F)
                     .noCollission()

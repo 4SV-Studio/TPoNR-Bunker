@@ -1,4 +1,4 @@
-package org.studio4sv.bunker;
+package org.studio4sv.bunker.utils;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;

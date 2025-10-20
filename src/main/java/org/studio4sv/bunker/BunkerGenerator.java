@@ -16,6 +16,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.studio4sv.bunker.utils.BunkerPlayerData;
 import org.studio4sv.bunker.utils.StructurePlacedData;
 
 import java.util.Optional;
