@@ -1,4 +1,5 @@
 {
   "block.bunker.exit_block": "Bunker Exit",
-  "block.bunker.entrance_block": "Bunker Entrance"
+  "block.bunker.entrance_block": "Bunker Entrance",
+  "item.bunker.bunker_teleporter": "Bunker Teleporter"
 }

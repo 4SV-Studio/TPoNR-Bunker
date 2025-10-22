@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.studio4sv.bunker.items.BunkerTeleportItem;
 
 @Mod.EventBusSubscriber(modid = BunkerMain.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModItems {
@@ -20,11 +21,15 @@ public class ModItems {
     public static final RegistryObject<Item> ENTRANCE_BLOCK = ITEMS.register("entrance_block",
             () -> new BlockItem(ModBlocks.ENTRANCE_BLOCK.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> BUNKER_TELEPORTER = ITEMS.register("bunker_teleporter",
+            () -> new BunkerTeleportItem(new Item.Properties().stacksTo(1)));
+
     @SubscribeEvent
     public static void buildContents(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.OP_BLOCKS) {
             event.accept(EXIT_BLOCK);
             event.accept(ENTRANCE_BLOCK);
+            event.accept(BUNKER_TELEPORTER);
         }
     }
 }
